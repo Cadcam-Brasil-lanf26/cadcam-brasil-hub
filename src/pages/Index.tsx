@@ -18,22 +18,13 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       {/* Header with centered logo */}
       <header className="container mx-auto px-6 py-8 flex justify-center">
-        <img
-          src={logo}
-          alt="CADCAM Brasil - Jornada Programação CNC"
-          className="h-16 md:h-20 object-contain"
-        />
+        <img src={logo} alt="CADCAM Brasil - Jornada Programação CNC" className="h-16 md:h-20 object-contain" />
       </header>
 
       <main className="container mx-auto px-6 py-8 space-y-12">
         {/* Title */}
         <div className="text-center">
-          <h1 className="font-inter text-3xl md:text-4xl font-bold text-primary">
-            Dashboard de Resultados
-          </h1>
-          <p className="font-montserrat text-subtitle mt-2">
-            Análise dos dados de diagnóstico CNC
-          </p>
+          <h1 className="font-inter text-3xl md:text-4xl font-bold text-primary">Dashboard de Resultados</h1>
         </div>
 
         {/* Error state */}
@@ -58,17 +49,13 @@ const Index = () => {
         {!isLoading && !error && data && (
           <>
             <section>
-              <h2 className="font-inter text-xl font-semibold text-primary mb-4">
-                Registros ({data.length})
-              </h2>
+              <h2 className="font-inter text-xl font-semibold text-primary mb-4">Registros ({data.length})</h2>
               <DataTable data={data} />
             </section>
 
             {/* Charts Section */}
             <section>
-              <h2 className="font-inter text-xl font-semibold text-primary mb-4">
-                Gráficos e Análises
-              </h2>
+              <h2 className="font-inter text-xl font-semibold text-primary mb-4">Gráficos e Análises</h2>
               <DashboardCharts data={data} />
             </section>
           </>
