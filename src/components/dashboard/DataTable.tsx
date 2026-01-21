@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { Download } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -9,6 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
 import type { DiagnosticoCNC } from "@/hooks/useDiagnosticoCNC";
 
 interface DataTableProps {
@@ -16,8 +18,68 @@ interface DataTableProps {
 }
 
 const DataTable = ({ data }: DataTableProps) => {
+  const handleDownloadCSV = () => {
+    const headers = [
+      "Nome",
+      "WhatsApp",
+      "E-mail",
+      "Você é",
+      "Idade",
+      "Conhece o Prof.",
+      "Empregado",
+      "Salário",
+      "1ª vez na Jornada",
+      "Falta aprender",
+      "Campanha",
+      "Origem",
+      "Público",
+      "Anúncio",
+      "Data de criação",
+    ];
+
+    const rows = data.map((row) => [
+      row.name || "",
+      row.phone || "",
+      row.email || "",
+      row.voce_e,
+      row.qual_idade,
+      row.tempo_conhece_prof,
+      row.esta_empregado,
+      row.valor_salario,
+      row.primeira_vez_jornada,
+      row.falta_aprender,
+      row.utm_campaign || "",
+      row.utm_source || "",
+      row.utm_medium || "",
+      row.utm_content || "",
+      format(new Date(row.created_at), "dd/MM/yyyy HH:mm", { locale: ptBR }),
+    ]);
+
+    const csvContent = [
+      headers.join(";"),
+      ...rows.map((row) =>
+        row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(";")
+      ),
+    ].join("\n");
+
+    const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `diagnostico-cnc-${format(new Date(), "yyyy-MM-dd")}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
   return (
     <div className="bg-card rounded-lg border border-border overflow-hidden">
+      <div className="flex justify-end p-4 border-b border-border">
+        <Button onClick={handleDownloadCSV} variant="outline" size="sm" disabled={data.length === 0}>
+          <Download className="h-4 w-4 mr-2" />
+          Baixar CSV
+        </Button>
+      </div>
       <ScrollArea className="w-full">
         <div className="min-w-[1400px]">
           <Table>
