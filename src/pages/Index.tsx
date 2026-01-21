@@ -1,11 +1,18 @@
+import { useState } from "react";
 import logo from "@/assets/logo.png";
 import { useDiagnosticoCNC } from "@/hooks/useDiagnosticoCNC";
 import DataTable from "@/components/dashboard/DataTable";
 import DashboardCharts from "@/components/dashboard/DashboardCharts";
 import { Skeleton } from "@/components/ui/skeleton";
+import PasswordGate from "@/components/dashboard/PasswordGate";
 
 const Index = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { data, isLoading, error } = useDiagnosticoCNC();
+
+  if (!isAuthenticated) {
+    return <PasswordGate onSuccess={() => setIsAuthenticated(true)} />;
+  }
 
   return (
     <div className="min-h-screen bg-background">
