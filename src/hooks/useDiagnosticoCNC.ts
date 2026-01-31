@@ -22,33 +22,43 @@ export interface DiagnosticoCNC {
 
 export const useDiagnosticoCNC = () => {
   return useQuery({
-    queryKey: ["diagnostico_cnc"],
+    // Include a version segment to ensure React Query doesn't keep serving an old cached result
+    // after hot reloads/code changes.
+    queryKey: ["diagnostico_cnc", "all_v2"],
     queryFn: async () => {
       // Fetch all data using pagination to bypass the 1000 row limit
       const allData: any[] = [];
       const pageSize = 1000;
-      let page = 0;
-      let hasMore = true;
+      let from = 0;
+      let to = pageSize - 1;
+      let totalCount: number | null = null;
 
-      while (hasMore) {
-        const from = page * pageSize;
-        const to = from + pageSize - 1;
-
-        const { data, error } = await supabase
+      // Hard safety to avoid infinite loops in case something unexpected happens.
+      const maxPages = 10000;
+      for (let page = 0; page < maxPages; page++) {
+        const { data, error, count } = await supabase
           .from("diagnostico_cnc")
-          .select("*")
+          .select("*", { count: "exact" })
           .order("created_at", { ascending: false })
           .range(from, to);
 
         if (error) throw error;
 
-        if (data && data.length > 0) {
-          allData.push(...data);
-          hasMore = data.length === pageSize;
-          page++;
-        } else {
-          hasMore = false;
+        if (totalCount === null && typeof count === "number") {
+          totalCount = count;
         }
+
+        if (!data || data.length === 0) break;
+
+        allData.push(...data);
+
+        // Stop conditions
+        if (totalCount !== null && allData.length >= totalCount) break;
+        if (data.length < pageSize) break;
+
+        // Next page
+        from += pageSize;
+        to += pageSize;
       }
 
       // Map the data to friendly names
