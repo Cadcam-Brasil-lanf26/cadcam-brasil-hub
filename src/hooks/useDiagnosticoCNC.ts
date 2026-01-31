@@ -24,15 +24,35 @@ export const useDiagnosticoCNC = () => {
   return useQuery({
     queryKey: ["diagnostico_cnc"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("diagnostico_cnc")
-        .select("*")
-        .order("created_at", { ascending: false });
+      // Fetch all data using pagination to bypass the 1000 row limit
+      const allData: any[] = [];
+      const pageSize = 1000;
+      let page = 0;
+      let hasMore = true;
 
-      if (error) throw error;
+      while (hasMore) {
+        const from = page * pageSize;
+        const to = from + pageSize - 1;
+
+        const { data, error } = await supabase
+          .from("diagnostico_cnc")
+          .select("*")
+          .order("created_at", { ascending: false })
+          .range(from, to);
+
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+          allData.push(...data);
+          hasMore = data.length === pageSize;
+          page++;
+        } else {
+          hasMore = false;
+        }
+      }
 
       // Map the data to friendly names
-      return (data || []).map((item) => ({
+      return allData.map((item) => ({
         id: item.id,
         created_at: item.created_at,
         name: item.name,
