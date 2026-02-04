@@ -106,11 +106,11 @@ const DashboardCharts = ({ data }: DashboardChartsProps) => {
     return Object.entries(counts).map(([name, value]) => ({ name, value }));
   }, [filteredData]);
 
-  // Chart data: Empregado
-  const employmentData = useMemo(() => {
+  // Chart data: Conhece o Professor Fernando
+  const knowsProfessorData = useMemo(() => {
     const counts: Record<string, number> = {};
     filteredData.forEach((item) => {
-      counts[item.esta_empregado] = (counts[item.esta_empregado] || 0) + 1;
+      counts[item.tempo_conhece_prof] = (counts[item.tempo_conhece_prof] || 0) + 1;
     });
     return Object.entries(counts).map(([name, value]) => ({ name, value }));
   }, [filteredData]);
@@ -309,16 +309,16 @@ const DashboardCharts = ({ data }: DashboardChartsProps) => {
           )}
         </div>
 
-        {/* Employment Status */}
+        {/* Conhece o Professor Fernando */}
         <div className="bg-card rounded-lg border border-border p-6">
           <h3 className="font-inter text-lg font-semibold text-primary mb-4">
-            Status de Emprego
+            Conhece o Professor Fernando
           </h3>
-          {employmentData.length > 0 ? (
+          {knowsProfessorData.length > 0 ? (
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
-                  data={employmentData}
+                  data={knowsProfessorData}
                   cx="50%"
                   cy="50%"
                   labelLine={false}
@@ -327,7 +327,7 @@ const DashboardCharts = ({ data }: DashboardChartsProps) => {
                   dataKey="value"
                   label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
                 >
-                  {employmentData.map((_, index) => (
+                  {knowsProfessorData.map((_, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
