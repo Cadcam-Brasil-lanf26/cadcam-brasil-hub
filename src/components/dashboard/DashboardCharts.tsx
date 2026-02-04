@@ -325,7 +325,7 @@ const DashboardCharts = ({ data }: DashboardChartsProps) => {
                   outerRadius={80}
                   fill="#8884d8"
                   dataKey="value"
-                  label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
+                  label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
                 >
                   {knowsProfessorData.map((_, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -337,6 +337,8 @@ const DashboardCharts = ({ data }: DashboardChartsProps) => {
                     border: "1px solid hsl(var(--border))",
                     borderRadius: "8px",
                   }}
+                  labelStyle={{ color: "hsl(var(--foreground))" }}
+                  itemStyle={{ color: "hsl(var(--foreground))" }}
                 />
                 <Legend />
               </PieChart>
