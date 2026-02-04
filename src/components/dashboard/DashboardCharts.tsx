@@ -315,14 +315,14 @@ const DashboardCharts = ({ data }: DashboardChartsProps) => {
             Conhece o Professor Fernando
           </h3>
           {knowsProfessorData.length > 0 ? (
-            <ResponsiveContainer width="100%" height={350}>
-              <PieChart>
+            <ResponsiveContainer width="100%" height={380}>
+              <PieChart margin={{ top: 20 }}>
                 <Pie
                   data={knowsProfessorData}
                   cx="50%"
-                  cy="40%"
+                  cy="45%"
                   labelLine={false}
-                  outerRadius={80}
+                  outerRadius={75}
                   fill="#8884d8"
                   dataKey="value"
                   label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
