@@ -74,6 +74,75 @@ export type Database = {
         }
         Relationships: []
       }
+      diagnostico_silas: {
+        Row: {
+          categoria: string
+          created_at: string
+          deseja_aprender: string
+          email: string | null
+          faixa_etaria: string
+          faixa_renda: string
+          id: number
+          investimento_obra: string
+          ja_construiu: string
+          maior_medo: string
+          momento: string
+          name: string | null
+          "pg-origem": string | null
+          phone: string | null
+          pretende_comecar_12_meses: string
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+        }
+        Insert: {
+          categoria?: string
+          created_at?: string
+          deseja_aprender?: string
+          email?: string | null
+          faixa_etaria?: string
+          faixa_renda?: string
+          id?: number
+          investimento_obra?: string
+          ja_construiu?: string
+          maior_medo?: string
+          momento?: string
+          name?: string | null
+          "pg-origem"?: string | null
+          phone?: string | null
+          pretende_comecar_12_meses?: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Update: {
+          categoria?: string
+          created_at?: string
+          deseja_aprender?: string
+          email?: string | null
+          faixa_etaria?: string
+          faixa_renda?: string
+          id?: number
+          investimento_obra?: string
+          ja_construiu?: string
+          maior_medo?: string
+          momento?: string
+          name?: string | null
+          "pg-origem"?: string | null
+          phone?: string | null
+          pretende_comecar_12_meses?: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
